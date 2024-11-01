@@ -4,11 +4,11 @@ module seg_static (
     output     [5:0]    sel         ,
     output reg [7:0]    seg
 );
-/*--------------cnt-------------------*/
+/*--------------sel-------------------*/
  assign sel = 6'b111_111;
 /*--------------cnt-------------------*/
  reg [21:0] cnt ;
- parameter time_50ms = 25_000_00;
+ parameter time_50ms = 25;
  always @(posedge clk or negedge rst) begin
      if (!rst) begin
         cnt <= 22'd0;

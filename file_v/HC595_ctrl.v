@@ -60,17 +60,20 @@ module HC595_ctrl (
  end
 /*------------------data--------------------*/
  reg [13:0] data;
- always @(posedge shcp or negedge rst) begin
+ always @(posedge clk or negedge rst) begin
     if (!rst) begin
          data <= 14'd0;
     end
-    else if (cnt_bit == 6) begin
+    else begin case (seg[7:0])
+       
+        8'h00,8'h01,8'h02,8'h03,8'h04,8'h05,8'h06,8'h07,8'h08,8'h09,8'h0a,8'h0b,8'h0c,8'h0d,8'h0e,8'h0f:
         data <= {seg[7:0],sel[5:0]};
+        default:;
+    endcase  
     end
-        
  end
 /*------------------DS--------------------*/
- always @(posedge shcp) begin
+ always @(posedge clk or negedge rst) begin
     if (!rst) begin
         DS <= 1'b0;
     end
