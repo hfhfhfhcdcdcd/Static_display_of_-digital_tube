@@ -26,7 +26,10 @@ module HC595_ctrl (
     if (!rst) begin
          shcp <= 1'b0;
     end
-    else if (freq_12_5M_cnt == 2'd3) begin
+    else if (freq_12_5M_cnt == 2'd2) begin
+        shcp <= ~shcp;
+    end
+    else if (freq_12_5M_cnt == 2'd0) begin
         shcp <= ~shcp;
     end
     else
@@ -48,11 +51,11 @@ module HC595_ctrl (
         cnt_bit <= cnt_bit;
  end 
 /*------------------stcp--------------------*/
- always @(posedge clk or negedge rst) begin
+ always @(posedge shcp or negedge rst) begin
     if (!rst) begin
          stcp <= 1'b0;
     end
-    else if ((cnt_bit == 4'd13)&&(freq_12_5M_cnt >= 2'd0)) begin
+    else if (cnt_bit == 4'd13) begin
         stcp <= 1'b1;
     end
     else
@@ -77,15 +80,15 @@ module HC595_ctrl (
     if (!rst) begin
         DS <= 1'b0;
     end
-    else 
+    else if (freq_12_5M_cnt == 2'd0) begin
         DS <= data[cnt_bit];
+    end
+    else
+        DS <= DS;
  end
 /*------------------OE--------------------*/
  always @(posedge clk or negedge rst) begin
     if (!rst) begin
-        OE <= 1'b0;
-    end
-    else if((cnt_bit == 4'd13)&&(freq_12_5M_cnt == 2'd3))begin
         OE <= 1'b1;
     end
     else    

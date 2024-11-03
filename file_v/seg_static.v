@@ -8,7 +8,7 @@ module seg_static (
  assign sel = 6'b111_111;
 /*--------------cnt-------------------*/
  reg [21:0] cnt ;
- parameter time_50ms = 25;
+ parameter time_50ms = 250;
  always @(posedge clk or negedge rst) begin
      if (!rst) begin
         cnt <= 22'd0;
